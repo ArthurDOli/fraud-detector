@@ -1,9 +1,8 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-import sys
 
 ### Load the dataset
-def read_archive(file_path):
+def load_data(file_path: str) -> pd.DataFrame | None:
     """
     Load the dataset and stop the code execution when an error occurs.
     """
@@ -12,14 +11,14 @@ def read_archive(file_path):
         return df
     except FileNotFoundError:
         print("Error: File not found")
-        sys.exit(1)
+        return None
     except Exception as e:
         print(f"An error ocurred when loading the file {e}")
-        sys.exit(1)
+        return None
 
 
 ### Preprocessing
-def initial_preprocess(df):
+def initial_preprocess(df: pd.DataFrame | None) -> pd.DataFrame | None:
     """
     Performs the initial preprocessing and removes the 'Time' column and scales the 'Amount' column.
     """
@@ -42,9 +41,9 @@ def initial_preprocess(df):
         print('Column "Amount" not found')
 
     # Scales 'V' columns
-    v_features = [f'V{i}' for i in range(1, 29)]
+    v_features: list[str] = [f'V{i}' for i in range(1, 29)]
     if all(feature in df_processed.columns for feature in v_features):
-        df_processed[v_features] = scaler.fit_transform(df_processed[[v_features]])
+        df_processed[v_features] = scaler.fit_transform(df_processed[v_features])
     else:
         print('Some columns were not found')
 
