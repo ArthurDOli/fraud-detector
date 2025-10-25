@@ -14,12 +14,12 @@ def get_cv_scores(model: Any, X_train: pd.DataFrame, y_train:pd.Series) -> Dict[
     scoring = cross_validate(model, X_train, y_train, cv=stratified, scoring=metrics)
     return {f'mean_{metric}': scoring[f'test_{metric}'].mean() for metric in metrics}
 
-def get_final_metrics(model_trained: Pipeline, X_test, y_test) -> Dict[str, float]:
+def get_final_metrics(model_trained: Pipeline, X_test: pd.DataFrame, y_test: pd.DataFrame) -> Dict[str, float]:
     """
     Calculates and prints the final classification metrics for the tests set
     """
-    y_pred: pd.DataFrame = model_trained.predict(X_test)
-    y_prob: pd.DataFrame = model_trained.predict_proba(X_test)[:, 1]
+    y_pred: np.ndarray = model_trained.predict(X_test)
+    y_prob: np.ndarray = model_trained.predict_proba(X_test)[:, 1]
     p_score = precision_score(y_test, y_pred)
     r_score = recall_score(y_test, y_pred)
     f_score = f1_score(y_test, y_pred)

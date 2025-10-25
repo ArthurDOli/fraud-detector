@@ -1,6 +1,6 @@
 from data_processing import load_data, initial_preprocess
 # from model_training import 
-from evaluation import get_cv_scores
+from evaluation import get_cv_scores, get_final_metrics
 import sys
 from model_training import split_data, create_smote_rf_pipeline
 from sklearn.linear_model import LogisticRegression
@@ -14,9 +14,10 @@ if df is not None:
     df_new = initial_preprocess(df)
     if df_new is not None:
         X_train, X_test, y_train, y_test = split_data(df_new)
-        baseline_model = LogisticRegression()
         smote_model = create_smote_rf_pipeline()
         print(get_cv_scores(smote_model, X_train, y_train))
+        rf_model = smote_model.fit(X_train, y_train)
+        print(get_final_metrics(smote_model, X_test, y_test))
     else:
         print('An error occurred during the preprocessing')
         sys.exit(1)
