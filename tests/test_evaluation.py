@@ -10,7 +10,7 @@ from src.evaluation import get_cv_scores, get_final_metrics
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from typing import Dict
+from typing import Dict, List
 
 def test_get_cv_scores():
     """
@@ -28,11 +28,11 @@ def test_get_final_metrics():
     """
     Test if the get_final_metrics function really works
     """
-    logistic_regression = LogisticRegression()
-    X_train_fake = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
-    X_test_fake = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
-    y_train_fake = [0, 1, 0, 1]
-    y_test_fake = [0, 1, 0, 1]
-    results = logistic_regression.fit(X_train_fake, y_train_fake)
-    metrics = get_final_metrics(results, X_test_fake, y_test_fake)
+    logistic_regression: LogisticRegression = LogisticRegression()
+    X_train_fake: List[List[int]] = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
+    X_test_fake: List[List[int]] = [[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]
+    y_train_fake: List[int] = [0, 1, 0, 1]
+    y_test_fake: List[int] = [0, 1, 0, 1]
+    results: LogisticRegression = logistic_regression.fit(X_train_fake, y_train_fake)
+    metrics: Dict[str, float] = get_final_metrics(results, X_test_fake, y_test_fake)
     assert isinstance(metrics, Dict)
