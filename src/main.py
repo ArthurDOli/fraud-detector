@@ -9,7 +9,6 @@ file = 'data/creditcard.csv'
 
 df = load_data(file)
 
-# Verificação do DataFrame
 if df is not None:
     df_new = initial_preprocess(df)
     if df_new is not None:
